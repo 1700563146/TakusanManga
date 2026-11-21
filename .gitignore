@@ -1,0 +1,36 @@
+# Gradle
+.gradle/
+build/
+**/build/
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+captures/
+
+# Android build outputs and local configuration
+local.properties
+*.apk
+*.aab
+*.keystore
+*.jks
+
+# Kotlin
+.kotlin/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Local-only development documentation
+/docs/
+/prompts/
+/samples/
+/AGENTS.md
+/CONTRIBUTING.md
+/MANIFEST.md
+/SECURITY.md
+/START-HERE.md
+/立项与开发实施文档_v1.1.md
+/Android漫画阅读器_立项与开发实施文档.md
+/.github/pull_request_template.md
