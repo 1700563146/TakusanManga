@@ -7,6 +7,10 @@ import com.manganew.reader.network.api.SourceHttpLimits
 import com.manganew.reader.network.api.SourceHttpMethod
 import com.manganew.reader.network.api.SourceHttpRequest
 import com.manganew.reader.network.api.SourceHttpResult
+import com.manganew.reader.source.api.SourceCapability
+import com.manganew.reader.source.api.SourceDescriptor
+import com.manganew.reader.source.api.SourceFormat
+import java.net.InetAddress
 import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.cancelAndJoin
@@ -15,6 +19,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import mockwebserver3.MockResponse
 import mockwebserver3.junit4.MockWebServerRule
+import okhttp3.Dns
+import okhttp3.HttpUrl
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
@@ -31,9 +37,12 @@ class OkHttpSourceHttpClientTest {
     private val server
         get() = serverRule.server
 
+    private val sourceA = descriptor("source-a")
+    private val sourceB = descriptor("source-b")
+
     @Test
     fun returns200AndErrorStatusesWithoutThrowing() = runBlocking {
-        OkHttpSourceHttpClient(SourceA).use { client ->
+        client().use { client ->
             listOf(200, 404, 503).forEach { status ->
                 server.enqueue(
                     MockResponse.Builder()
@@ -54,6 +63,93 @@ class OkHttpSourceHttpClientTest {
     }
 
     @Test
+    fun followsAuthorizedRedirectAndValidatesEachHop() = runBlocking {
+        server.enqueue(
+            MockResponse.Builder()
+                .code(302)
+                .setHeader("Location", "/final")
+                .build(),
+        )
+        server.enqueue(MockResponse.Builder().code(200).body("final").build())
+
+        client().use { client ->
+            val result = client.execute(request())
+
+            assertTrue(result is SourceHttpResult.Success)
+            val response = (result as SourceHttpResult.Success).response
+            assertEquals("final", response.body)
+            assertEquals(testUrl("/final").toString(), response.finalUrl)
+            assertEquals(2, server.requestCount)
+        }
+    }
+
+    @Test
+    fun rejectsRedirectToUnauthorizedHostAndNonHttpScheme() = runBlocking {
+        server.enqueue(
+            MockResponse.Builder()
+                .code(302)
+                .setHeader("Location", "https://evil.example.test/steal")
+                .build(),
+        )
+        client().use { client ->
+            val result = client.execute(request())
+
+            assertTrue(result is SourceHttpResult.Failure)
+            assertTrue((result as SourceHttpResult.Failure).error is SourceHttpError.UrlRejected)
+            assertEquals(1, server.requestCount)
+        }
+
+        server.enqueue(
+            MockResponse.Builder()
+                .code(302)
+                .setHeader("Location", "file:///etc/passwd")
+                .build(),
+        )
+        client().use { client ->
+            val result = client.execute(request())
+
+            assertTrue(result is SourceHttpResult.Failure)
+            assertTrue((result as SourceHttpResult.Failure).error is SourceHttpError.UrlRejected)
+            assertEquals(2, server.requestCount)
+        }
+    }
+
+    @Test
+    fun rejectsPrivateResolvedAddressBeforeConnection() = runBlocking {
+        client(allowLoopbackForTests = false).use { client ->
+            val result = client.execute(request())
+
+            assertEquals(
+                SourceHttpError.UrlRejected("resolved address is not public"),
+                (result as SourceHttpResult.Failure).error,
+            )
+            assertEquals(0, server.requestCount)
+        }
+    }
+
+    @Test
+    fun stopsAfterFiveRedirects() = runBlocking {
+        repeat(SourceHttpLimits.MAX_REDIRECTS + 1) {
+            server.enqueue(
+                MockResponse.Builder()
+                    .code(302)
+                    .setHeader("Location", "/loop")
+                    .build(),
+            )
+        }
+
+        client().use { client ->
+            val result = client.execute(request())
+
+            assertEquals(
+                SourceHttpError.TooManyRedirects(SourceHttpLimits.MAX_REDIRECTS),
+                (result as SourceHttpResult.Failure).error,
+            )
+            assertEquals(SourceHttpLimits.MAX_REDIRECTS + 1, server.requestCount)
+        }
+    }
+
+    @Test
     fun sendsHeadersAndPostBodyAndFiltersSensitiveResponseHeaders() = runBlocking {
         server.enqueue(
             MockResponse.Builder()
@@ -63,11 +159,11 @@ class OkHttpSourceHttpClientTest {
                 .body("""{"ok":true}""")
                 .build(),
         )
-        OkHttpSourceHttpClient(SourceA).use { client ->
+        client().use { client ->
             val result = client.execute(
                 SourceHttpRequest(
-                    sourceId = SourceA,
-                    url = server.url("/search").toString(),
+                    sourceId = sourceA.id,
+                    url = testUrl("/search").toString(),
                     method = SourceHttpMethod.POST,
                     headers = mapOf(
                         "Content-Type" to "application/x-www-form-urlencoded",
@@ -90,8 +186,8 @@ class OkHttpSourceHttpClientTest {
 
     @Test
     fun isolatesCookiesBetweenSourceClients() = runBlocking {
-        OkHttpSourceHttpClient(SourceA).use { clientA ->
-            OkHttpSourceHttpClient(SourceB).use { clientB ->
+        client(sourceA).use { clientA ->
+            client(sourceB).use { clientB ->
                 server.enqueue(
                     MockResponse.Builder()
                         .code(200)
@@ -104,7 +200,9 @@ class OkHttpSourceHttpClientTest {
 
                 val firstResult = clientA.execute(request())
                 val secondResult = clientA.execute(request(path = "/cookie-check"))
-                val isolatedResult = clientB.execute(request(sourceId = SourceB, path = "/cookie-check"))
+                val isolatedResult = clientB.execute(
+                    request(sourceId = sourceB.id, path = "/cookie-check"),
+                )
                 assertTrue("first=$firstResult", firstResult is SourceHttpResult.Success)
                 assertTrue("second=$secondResult", secondResult is SourceHttpResult.Success)
                 assertTrue("isolated=$isolatedResult", isolatedResult is SourceHttpResult.Success)
@@ -127,7 +225,7 @@ class OkHttpSourceHttpClientTest {
                 .bodyDelay(2, TimeUnit.SECONDS)
                 .build(),
         )
-        OkHttpSourceHttpClient(SourceA).use { client ->
+        client().use { client ->
             val result = client.execute(request(timeoutMillis = 100))
 
             assertTrue(result is SourceHttpResult.Failure)
@@ -144,7 +242,7 @@ class OkHttpSourceHttpClientTest {
                 .bodyDelay(5, TimeUnit.SECONDS)
                 .build(),
         )
-        OkHttpSourceHttpClient(SourceA).use { client ->
+        client().use { client ->
             val job = launch {
                 try {
                     client.execute(request(timeoutMillis = 10_000))
@@ -169,7 +267,7 @@ class OkHttpSourceHttpClientTest {
                 .build(),
         )
         server.enqueue(MockResponse.Builder().code(200).body("next").build())
-        OkHttpSourceHttpClient(SourceA).use { client ->
+        client().use { client ->
             val result = client.execute(request())
 
             assertTrue(result is SourceHttpResult.Failure)
@@ -183,12 +281,12 @@ class OkHttpSourceHttpClientTest {
 
     @Test
     fun rejectsWrongSourceAndKeepsNoDiskCache() = runBlocking {
-        OkHttpSourceHttpClient(SourceA).use { client ->
+        client().use { client ->
             assertNull(client.okHttpClient.cache)
             val result = client.execute(
                 SourceHttpRequest(
-                    sourceId = SourceB,
-                    url = server.url("/unused").toString(),
+                    sourceId = sourceB.id,
+                    url = testUrl("/unused").toString(),
                 ),
             )
 
@@ -206,7 +304,7 @@ class OkHttpSourceHttpClientTest {
 
     @Test
     fun closeIsIdempotentAndRejectsFurtherRequests() = runBlocking {
-        val client = OkHttpSourceHttpClient(SourceA)
+        val client = client()
         client.close()
         client.close()
 
@@ -223,18 +321,54 @@ class OkHttpSourceHttpClientTest {
     }
 
     private fun request(
-        sourceId: SourceId = SourceA,
+        sourceId: SourceId = sourceA.id,
         path: String = "/",
         timeoutMillis: Int = 5_000,
     ): SourceHttpRequest =
         SourceHttpRequest(
             sourceId = sourceId,
-            url = server.url(path).toString(),
+            url = testUrl(path).toString(),
             timeoutMillis = timeoutMillis,
         )
 
+    private fun client(
+        source: SourceDescriptor = sourceA,
+        allowLoopbackForTests: Boolean = true,
+    ): OkHttpSourceHttpClient =
+        OkHttpSourceHttpClient(
+            networkPolicy = SourceNetworkPolicy(
+                descriptor = source,
+                allowLoopbackForTests = allowLoopbackForTests,
+                allowedPortsForTests = setOf(server.port),
+            ),
+            dns = object : Dns {
+                override fun lookup(hostname: String): List<InetAddress> =
+                    listOf(server.socketAddress.address)
+            },
+        )
+
+    private fun testUrl(path: String = "/"): HttpUrl =
+        HttpUrl.Builder()
+            .scheme("http")
+            .host(SourceHost)
+            .port(server.port)
+            .addPathSegments(path.trimStart('/'))
+            .build()
+
+    private fun descriptor(id: String): SourceDescriptor =
+        SourceDescriptor(
+            id = SourceId(id),
+            name = "Test source",
+            version = "1.0.0",
+            format = SourceFormat.NATIVE_JSON,
+            adapterApiVersion = 1,
+            baseUrl = "https://$SourceHost",
+            allowedHosts = setOf(SourceHost, "images.example.test"),
+            capabilities = setOf(SourceCapability.SEARCH),
+            allowHttp = true,
+        )
+
     private companion object {
-        val SourceA = SourceId("source-a")
-        val SourceB = SourceId("source-b")
+        const val SourceHost = "source.example.test"
     }
 }

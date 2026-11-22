@@ -260,6 +260,7 @@ public final class com/manganew/reader/network/api/SourceHttpLimits {
 	public static final field MAX_HEADER_COUNT I
 	public static final field MAX_HEADER_NAME_LENGTH I
 	public static final field MAX_HEADER_VALUE_LENGTH I
+	public static final field MAX_REDIRECTS I
 	public static final field MAX_REQUEST_BODY_BYTES I
 	public static final field MAX_RESPONSE_BODY_BYTES I
 	public static final field MAX_TIMEOUT_MILLIS I

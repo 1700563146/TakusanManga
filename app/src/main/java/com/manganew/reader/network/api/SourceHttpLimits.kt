@@ -31,6 +31,9 @@ public object SourceHttpLimits {
     /** Maximum URL length accepted by the request model. */
     public const val MAX_URL_LENGTH: Int = 8 * 1024
 
+    /** Maximum number of redirects followed for one source request. */
+    public const val MAX_REDIRECTS: Int = 5
+
     /** Maximum number of request or response headers exposed through network API. */
     public const val MAX_HEADER_COUNT: Int = 64
 
