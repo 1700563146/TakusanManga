@@ -1,11 +1,14 @@
 package com.manganew.reader.source.api
 
+import com.manganew.reader.core.model.ExperimentalMangaApi
+
 /**
  * Result of a bounded source connection test.
  *
  * A success contains no source document data. A failure contains only a
  * structured [SourceFailure] and an optional user-safe message.
  */
+@ExperimentalMangaApi
 public sealed interface SourceTestResult {
     public val isSuccess: Boolean
 

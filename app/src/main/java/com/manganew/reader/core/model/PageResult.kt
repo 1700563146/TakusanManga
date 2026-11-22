@@ -13,6 +13,7 @@ package com.manganew.reader.core.model
  * check(page.hasMore)
  * ```
  */
+@ExperimentalMangaApi
 public data class PageResult<T>(
     public val items: List<T>,
     public val nextPageToken: String? = null,

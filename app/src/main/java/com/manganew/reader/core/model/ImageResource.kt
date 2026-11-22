@@ -17,6 +17,7 @@ package com.manganew.reader.core.model
  * [expiresAtEpochSeconds] indicates a temporary URL that must be resolved
  * again after expiry.
  */
+@ExperimentalMangaApi
 public data class ImageResource(
     public val url: String,
     public val referer: String? = null,

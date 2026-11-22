@@ -6,6 +6,7 @@ package com.manganew.reader.core.model
  * A remote ID is only unique within its source, so [sourceId] and [remoteId]
  * must always travel together.
  */
+@ExperimentalMangaApi
 public data class ComicRef(
     public val sourceId: SourceId,
     public val remoteId: RemoteId,
@@ -24,6 +25,7 @@ public data class ComicRef(
  * )
  * ```
  */
+@ExperimentalMangaApi
 public data class ComicSummary(
     public val ref: ComicRef,
     public val title: String,
@@ -48,6 +50,7 @@ public data class ComicSummary(
  * [tags] order is preserved. [metadata] is display-only short text and must not
  * contain full HTML, chapter bodies, Base64 data, or sensitive credentials.
  */
+@ExperimentalMangaApi
 public data class ComicDetail(
     public val ref: ComicRef,
     public val title: String,
@@ -78,6 +81,7 @@ public data class ComicDetail(
  * present it must be non-negative. [publishedAt] is display text and must not
  * be parsed by the reader.
  */
+@ExperimentalMangaApi
 public data class Chapter(
     public val sourceId: SourceId,
     public val comicId: RemoteId,

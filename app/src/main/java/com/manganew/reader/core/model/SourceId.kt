@@ -11,6 +11,7 @@ package com.manganew.reader.core.model
  * ```
  */
 @JvmInline
+@ExperimentalMangaApi
 public value class SourceId(public val value: String) {
     init {
         requireOpaqueId("sourceId", value, MaxSourceIdLength)
@@ -31,6 +32,7 @@ public value class SourceId(public val value: String) {
  * ```
  */
 @JvmInline
+@ExperimentalMangaApi
 public value class RemoteId(public val value: String) {
     init {
         requireOpaqueId("remoteId", value, MaxRemoteIdLength)

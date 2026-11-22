@@ -1,5 +1,6 @@
 package com.manganew.reader.source.api
 
+import com.manganew.reader.core.model.ExperimentalMangaApi
 import com.manganew.reader.core.model.SourceId
 import kotlinx.coroutines.flow.Flow
 
@@ -10,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
  * host may use [getSource] for controlled orchestration, but must keep runtime
  * lifetime and cleanup outside presentation components.
  */
+@ExperimentalMangaApi
 public interface SourceRepository {
     /** Observe installed source metadata in stable host order. */
     public fun observeInstalledSources(): Flow<List<InstalledSourceSummary>>

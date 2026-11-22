@@ -1,0 +1,403 @@
+public final class com/manganew/reader/core/model/Chapter {
+	public static final field $stable I
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-9iTTIAU ()Ljava/lang/String;
+	public final fun component2-0tmdHaM ()Ljava/lang/String;
+	public final fun component3-0tmdHaM ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/Integer;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun copy-5BteMYA (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/String;)Lcom/manganew/reader/core/model/Chapter;
+	public static synthetic fun copy-5BteMYA$default (Lcom/manganew/reader/core/model/Chapter;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/String;ILjava/lang/Object;)Lcom/manganew/reader/core/model/Chapter;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getChapterId-0tmdHaM ()Ljava/lang/String;
+	public final fun getComicId-0tmdHaM ()Ljava/lang/String;
+	public final fun getOrder ()Ljava/lang/Integer;
+	public final fun getPublishedAt ()Ljava/lang/String;
+	public final fun getSourceId-9iTTIAU ()Ljava/lang/String;
+	public final fun getTitle ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/manganew/reader/core/model/ComicDetail {
+	public static final field $stable I
+	public fun <init> (Lcom/manganew/reader/core/model/ComicRef;Ljava/lang/String;Lcom/manganew/reader/core/model/ImageResource;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/util/Map;)V
+	public synthetic fun <init> (Lcom/manganew/reader/core/model/ComicRef;Ljava/lang/String;Lcom/manganew/reader/core/model/ImageResource;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lcom/manganew/reader/core/model/ComicRef;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Lcom/manganew/reader/core/model/ImageResource;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/util/List;
+	public final fun component7 ()Ljava/lang/String;
+	public final fun component8 ()Ljava/util/Map;
+	public final fun copy (Lcom/manganew/reader/core/model/ComicRef;Ljava/lang/String;Lcom/manganew/reader/core/model/ImageResource;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/util/Map;)Lcom/manganew/reader/core/model/ComicDetail;
+	public static synthetic fun copy$default (Lcom/manganew/reader/core/model/ComicDetail;Lcom/manganew/reader/core/model/ComicRef;Ljava/lang/String;Lcom/manganew/reader/core/model/ImageResource;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Lcom/manganew/reader/core/model/ComicDetail;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAuthor ()Ljava/lang/String;
+	public final fun getCover ()Lcom/manganew/reader/core/model/ImageResource;
+	public final fun getDescription ()Ljava/lang/String;
+	public final fun getMetadata ()Ljava/util/Map;
+	public final fun getRef ()Lcom/manganew/reader/core/model/ComicRef;
+	public final fun getStatus ()Ljava/lang/String;
+	public final fun getTags ()Ljava/util/List;
+	public final fun getTitle ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/manganew/reader/core/model/ComicRef {
+	public static final field $stable I
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-9iTTIAU ()Ljava/lang/String;
+	public final fun component2-0tmdHaM ()Ljava/lang/String;
+	public final fun copy-9Numn3c (Ljava/lang/String;Ljava/lang/String;)Lcom/manganew/reader/core/model/ComicRef;
+	public static synthetic fun copy-9Numn3c$default (Lcom/manganew/reader/core/model/ComicRef;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/manganew/reader/core/model/ComicRef;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getRemoteId-0tmdHaM ()Ljava/lang/String;
+	public final fun getSourceId-9iTTIAU ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/manganew/reader/core/model/ComicSummary {
+	public static final field $stable I
+	public fun <init> (Lcom/manganew/reader/core/model/ComicRef;Ljava/lang/String;Lcom/manganew/reader/core/model/ImageResource;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Lcom/manganew/reader/core/model/ComicRef;Ljava/lang/String;Lcom/manganew/reader/core/model/ImageResource;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lcom/manganew/reader/core/model/ComicRef;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Lcom/manganew/reader/core/model/ImageResource;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun component7 ()Ljava/lang/String;
+	public final fun copy (Lcom/manganew/reader/core/model/ComicRef;Ljava/lang/String;Lcom/manganew/reader/core/model/ImageResource;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lcom/manganew/reader/core/model/ComicSummary;
+	public static synthetic fun copy$default (Lcom/manganew/reader/core/model/ComicSummary;Lcom/manganew/reader/core/model/ComicRef;Ljava/lang/String;Lcom/manganew/reader/core/model/ImageResource;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/manganew/reader/core/model/ComicSummary;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAuthor ()Ljava/lang/String;
+	public final fun getCover ()Lcom/manganew/reader/core/model/ImageResource;
+	public final fun getLatestChapter ()Ljava/lang/String;
+	public final fun getRef ()Lcom/manganew/reader/core/model/ComicRef;
+	public final fun getStatus ()Ljava/lang/String;
+	public final fun getSubtitle ()Ljava/lang/String;
+	public final fun getTitle ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface annotation class com/manganew/reader/core/model/ExperimentalMangaApi : java/lang/annotation/Annotation {
+}
+
+public final class com/manganew/reader/core/model/ImageResource {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljava/lang/Long;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljava/lang/Long;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/util/Map;
+	public final fun component4 ()Ljava/lang/Long;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljava/lang/Long;Ljava/lang/String;)Lcom/manganew/reader/core/model/ImageResource;
+	public static synthetic fun copy$default (Lcom/manganew/reader/core/model/ImageResource;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljava/lang/Long;Ljava/lang/String;ILjava/lang/Object;)Lcom/manganew/reader/core/model/ImageResource;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getExpiresAtEpochSeconds ()Ljava/lang/Long;
+	public final fun getHeaders ()Ljava/util/Map;
+	public final fun getMimeTypeHint ()Ljava/lang/String;
+	public final fun getReferer ()Ljava/lang/String;
+	public final fun getUrl ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/manganew/reader/core/model/PageResult {
+	public static final field $stable I
+	public fun <init> (Ljava/util/List;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/util/List;Ljava/lang/String;)Lcom/manganew/reader/core/model/PageResult;
+	public static synthetic fun copy$default (Lcom/manganew/reader/core/model/PageResult;Ljava/util/List;Ljava/lang/String;ILjava/lang/Object;)Lcom/manganew/reader/core/model/PageResult;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getHasMore ()Z
+	public final fun getItems ()Ljava/util/List;
+	public final fun getNextPageToken ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/manganew/reader/core/model/RemoteId {
+	public static final synthetic fun box-impl (Ljava/lang/String;)Lcom/manganew/reader/core/model/RemoteId;
+	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public static fun hashCode-impl (Ljava/lang/String;)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Ljava/lang/String;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Ljava/lang/String;
+}
+
+public final class com/manganew/reader/core/model/SourceId {
+	public static final synthetic fun box-impl (Ljava/lang/String;)Lcom/manganew/reader/core/model/SourceId;
+	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public static fun hashCode-impl (Ljava/lang/String;)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Ljava/lang/String;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Ljava/lang/String;
+}
+
+public final class com/manganew/reader/source/api/InstalledSourceSummary {
+	public static final field $stable I
+	public fun <init> (Lcom/manganew/reader/source/api/SourceDescriptor;Z)V
+	public final fun component1 ()Lcom/manganew/reader/source/api/SourceDescriptor;
+	public final fun component2 ()Z
+	public final fun copy (Lcom/manganew/reader/source/api/SourceDescriptor;Z)Lcom/manganew/reader/source/api/InstalledSourceSummary;
+	public static synthetic fun copy$default (Lcom/manganew/reader/source/api/InstalledSourceSummary;Lcom/manganew/reader/source/api/SourceDescriptor;ZILjava/lang/Object;)Lcom/manganew/reader/source/api/InstalledSourceSummary;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDescriptor ()Lcom/manganew/reader/source/api/SourceDescriptor;
+	public final fun getEnabled ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class com/manganew/reader/source/api/MangaSource {
+	public abstract fun close (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun getChapters (Lcom/manganew/reader/core/model/ComicRef;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun getDescriptor ()Lcom/manganew/reader/source/api/SourceDescriptor;
+	public abstract fun getDetail (Lcom/manganew/reader/core/model/ComicRef;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun getPages (Lcom/manganew/reader/core/model/Chapter;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun search (Ljava/lang/String;Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun search$default (Lcom/manganew/reader/source/api/MangaSource;Ljava/lang/String;Ljava/lang/String;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public abstract fun testConnection (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/manganew/reader/source/api/MangaSource$DefaultImpls {
+	public static synthetic fun search$default (Lcom/manganew/reader/source/api/MangaSource;Ljava/lang/String;Ljava/lang/String;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+}
+
+public final class com/manganew/reader/source/api/SourceCapability : java/lang/Enum {
+	public static final field ADVANCED_IMAGE Lcom/manganew/reader/source/api/SourceCapability;
+	public static final field CHAPTERS Lcom/manganew/reader/source/api/SourceCapability;
+	public static final field DETAIL Lcom/manganew/reader/source/api/SourceCapability;
+	public static final field EXPLORE Lcom/manganew/reader/source/api/SourceCapability;
+	public static final field PAGES Lcom/manganew/reader/source/api/SourceCapability;
+	public static final field SEARCH Lcom/manganew/reader/source/api/SourceCapability;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/manganew/reader/source/api/SourceCapability;
+	public static fun values ()[Lcom/manganew/reader/source/api/SourceCapability;
+}
+
+public final class com/manganew/reader/source/api/SourceDescriptor {
+	public static final field $stable I
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/manganew/reader/source/api/SourceFormat;ILjava/lang/String;Ljava/util/Set;Ljava/util/Set;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/manganew/reader/source/api/SourceFormat;ILjava/lang/String;Ljava/util/Set;Ljava/util/Set;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-9iTTIAU ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Lcom/manganew/reader/source/api/SourceFormat;
+	public final fun component5 ()I
+	public final fun component6 ()Ljava/lang/String;
+	public final fun component7 ()Ljava/util/Set;
+	public final fun component8 ()Ljava/util/Set;
+	public final fun component9 ()Z
+	public final fun copy-ZAukJb4 (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/manganew/reader/source/api/SourceFormat;ILjava/lang/String;Ljava/util/Set;Ljava/util/Set;Z)Lcom/manganew/reader/source/api/SourceDescriptor;
+	public static synthetic fun copy-ZAukJb4$default (Lcom/manganew/reader/source/api/SourceDescriptor;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/manganew/reader/source/api/SourceFormat;ILjava/lang/String;Ljava/util/Set;Ljava/util/Set;ZILjava/lang/Object;)Lcom/manganew/reader/source/api/SourceDescriptor;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAdapterApiVersion ()I
+	public final fun getAllowHttp ()Z
+	public final fun getAllowedHosts ()Ljava/util/Set;
+	public final fun getBaseUrl ()Ljava/lang/String;
+	public final fun getCapabilities ()Ljava/util/Set;
+	public final fun getFormat ()Lcom/manganew/reader/source/api/SourceFormat;
+	public final fun getId-9iTTIAU ()Ljava/lang/String;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getVersion ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class com/manganew/reader/source/api/SourceFailure {
+}
+
+public final class com/manganew/reader/source/api/SourceFailure$EmptyResult : com/manganew/reader/source/api/SourceFailure {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/manganew/reader/source/api/SourceFailure$EmptyResult;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/manganew/reader/source/api/SourceFailure$Http : com/manganew/reader/source/api/SourceFailure {
+	public static final field $stable I
+	public fun <init> (I)V
+	public final fun component1 ()I
+	public final fun copy (I)Lcom/manganew/reader/source/api/SourceFailure$Http;
+	public static synthetic fun copy$default (Lcom/manganew/reader/source/api/SourceFailure$Http;IILjava/lang/Object;)Lcom/manganew/reader/source/api/SourceFailure$Http;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getStatusCode ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/manganew/reader/source/api/SourceFailure$InvalidInput : com/manganew/reader/source/api/SourceFailure {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lcom/manganew/reader/source/api/SourceFailure$InvalidInput;
+	public static synthetic fun copy$default (Lcom/manganew/reader/source/api/SourceFailure$InvalidInput;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/manganew/reader/source/api/SourceFailure$InvalidInput;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getField ()Ljava/lang/String;
+	public final fun getReason ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/manganew/reader/source/api/SourceFailure$Network : com/manganew/reader/source/api/SourceFailure {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/Throwable;)V
+	public synthetic fun <init> (Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/Throwable;
+	public final fun copy (Ljava/lang/Throwable;)Lcom/manganew/reader/source/api/SourceFailure$Network;
+	public static synthetic fun copy$default (Lcom/manganew/reader/source/api/SourceFailure$Network;Ljava/lang/Throwable;ILjava/lang/Object;)Lcom/manganew/reader/source/api/SourceFailure$Network;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCause ()Ljava/lang/Throwable;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/manganew/reader/source/api/SourceFailure$Parse : com/manganew/reader/source/api/SourceFailure {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lcom/manganew/reader/source/api/SourceFailure$Parse;
+	public static synthetic fun copy$default (Lcom/manganew/reader/source/api/SourceFailure$Parse;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/manganew/reader/source/api/SourceFailure$Parse;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDetail ()Ljava/lang/String;
+	public final fun getStage ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/manganew/reader/source/api/SourceFailure$PermissionDenied : com/manganew/reader/source/api/SourceFailure {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lcom/manganew/reader/source/api/SourceFailure$PermissionDenied;
+	public static synthetic fun copy$default (Lcom/manganew/reader/source/api/SourceFailure$PermissionDenied;Ljava/lang/String;ILjava/lang/Object;)Lcom/manganew/reader/source/api/SourceFailure$PermissionDenied;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPermission ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/manganew/reader/source/api/SourceFailure$PluginExecution : com/manganew/reader/source/api/SourceFailure {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lcom/manganew/reader/source/api/SourceFailure$PluginExecution;
+	public static synthetic fun copy$default (Lcom/manganew/reader/source/api/SourceFailure$PluginExecution;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/manganew/reader/source/api/SourceFailure$PluginExecution;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDetail ()Ljava/lang/String;
+	public final fun getPluginId ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/manganew/reader/source/api/SourceFailure$RateLimited : com/manganew/reader/source/api/SourceFailure {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/manganew/reader/source/api/SourceFailure$RateLimited;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/manganew/reader/source/api/SourceFailure$Timeout : com/manganew/reader/source/api/SourceFailure {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/manganew/reader/source/api/SourceFailure$Timeout;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/manganew/reader/source/api/SourceFailure$UnsupportedFormat : com/manganew/reader/source/api/SourceFailure {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lcom/manganew/reader/source/api/SourceFailure$UnsupportedFormat;
+	public static synthetic fun copy$default (Lcom/manganew/reader/source/api/SourceFailure$UnsupportedFormat;Ljava/lang/String;ILjava/lang/Object;)Lcom/manganew/reader/source/api/SourceFailure$UnsupportedFormat;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFormat ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/manganew/reader/source/api/SourceFormat : java/lang/Enum {
+	public static final field BREEZE_JS_COMPAT Lcom/manganew/reader/source/api/SourceFormat;
+	public static final field LEGADO_JSON_SUBSET Lcom/manganew/reader/source/api/SourceFormat;
+	public static final field NATIVE_JS Lcom/manganew/reader/source/api/SourceFormat;
+	public static final field NATIVE_JSON Lcom/manganew/reader/source/api/SourceFormat;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/manganew/reader/source/api/SourceFormat;
+	public static fun values ()[Lcom/manganew/reader/source/api/SourceFormat;
+}
+
+public abstract interface class com/manganew/reader/source/api/SourceRepository {
+	public abstract fun getInstalledSource-bjQ-kg0 (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun getSource-bjQ-kg0 (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun listInstalledSources (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun observeInstalledSources ()Lkotlinx/coroutines/flow/Flow;
+	public abstract fun remove-bjQ-kg0 (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun setEnabled-ZmLfu0k (Ljava/lang/String;ZLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun testConnection-bjQ-kg0 (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class com/manganew/reader/source/api/SourceTestResult {
+	public abstract fun isSuccess ()Z
+}
+
+public final class com/manganew/reader/source/api/SourceTestResult$Failure : com/manganew/reader/source/api/SourceTestResult {
+	public static final field $stable I
+	public fun <init> (Lcom/manganew/reader/source/api/SourceFailure;Ljava/lang/String;)V
+	public synthetic fun <init> (Lcom/manganew/reader/source/api/SourceFailure;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lcom/manganew/reader/source/api/SourceFailure;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Lcom/manganew/reader/source/api/SourceFailure;Ljava/lang/String;)Lcom/manganew/reader/source/api/SourceTestResult$Failure;
+	public static synthetic fun copy$default (Lcom/manganew/reader/source/api/SourceTestResult$Failure;Lcom/manganew/reader/source/api/SourceFailure;Ljava/lang/String;ILjava/lang/Object;)Lcom/manganew/reader/source/api/SourceTestResult$Failure;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFailure ()Lcom/manganew/reader/source/api/SourceFailure;
+	public final fun getMessage ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun isSuccess ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/manganew/reader/source/api/SourceTestResult$Success : com/manganew/reader/source/api/SourceTestResult {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/Long;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/Long;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/Long;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/Long;Ljava/lang/String;)Lcom/manganew/reader/source/api/SourceTestResult$Success;
+	public static synthetic fun copy$default (Lcom/manganew/reader/source/api/SourceTestResult$Success;Ljava/lang/Long;Ljava/lang/String;ILjava/lang/Object;)Lcom/manganew/reader/source/api/SourceTestResult$Success;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getLatencyMillis ()Ljava/lang/Long;
+	public final fun getMessage ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun isSuccess ()Z
+	public fun toString ()Ljava/lang/String;
+}
+

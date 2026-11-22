@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.binary.compatibility.validator)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
 }
@@ -42,7 +43,22 @@ android {
 kotlin {
     compilerOptions {
         jvmTarget.set(JvmTarget.fromTarget(libs.versions.javaVersion.get()))
+        optIn.add("com.manganew.reader.core.model.ExperimentalMangaApi")
     }
+}
+
+apiValidation {
+    ignoredPackages += listOf(
+        "com.manganew.reader.data",
+        "com.manganew.reader.designsystem",
+        "com.manganew.reader.feature",
+        "com.manganew.reader.navigation",
+    )
+    ignoredClasses += listOf(
+        "com.manganew.reader.ComposableSingletons\$MainActivityKt",
+        "com.manganew.reader.MainActivity",
+        "com.manganew.reader.MangaAppKt",
+    )
 }
 
 dependencies {

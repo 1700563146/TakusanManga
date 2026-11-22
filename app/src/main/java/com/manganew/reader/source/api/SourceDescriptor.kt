@@ -1,9 +1,11 @@
 package com.manganew.reader.source.api
 
+import com.manganew.reader.core.model.ExperimentalMangaApi
 import com.manganew.reader.core.model.SourceId
 import java.net.URI
 
 /** Optional operations declared by an installed source. */
+@ExperimentalMangaApi
 public enum class SourceCapability {
     SEARCH,
     DETAIL,
@@ -14,6 +16,7 @@ public enum class SourceCapability {
 }
 
 /** Declarative source format handled by a host-side adapter. */
+@ExperimentalMangaApi
 public enum class SourceFormat {
     NATIVE_JSON,
     LEGADO_JSON_SUBSET,
@@ -44,6 +47,7 @@ public enum class SourceFormat {
  * )
  * ```
  */
+@ExperimentalMangaApi
 public data class SourceDescriptor(
     public val id: SourceId,
     public val name: String,

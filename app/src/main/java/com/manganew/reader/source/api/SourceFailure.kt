@@ -1,5 +1,7 @@
 package com.manganew.reader.source.api
 
+import com.manganew.reader.core.model.ExperimentalMangaApi
+
 /**
  * Structured failures that may cross the public source boundary.
  *
@@ -8,6 +10,7 @@ package com.manganew.reader.source.api
  * fields displayed to users. Cancellation is not represented here and must
  * continue to propagate as `CancellationException`.
  */
+@ExperimentalMangaApi
 public sealed interface SourceFailure {
     /** Network failure. The optional cause is for internal diagnostics only. */
     public data class Network(

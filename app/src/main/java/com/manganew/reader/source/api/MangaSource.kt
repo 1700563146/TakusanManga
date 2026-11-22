@@ -4,6 +4,7 @@ import com.manganew.reader.core.model.Chapter
 import com.manganew.reader.core.model.ComicDetail
 import com.manganew.reader.core.model.ComicRef
 import com.manganew.reader.core.model.ComicSummary
+import com.manganew.reader.core.model.ExperimentalMangaApi
 import com.manganew.reader.core.model.ImageResource
 import com.manganew.reader.core.model.PageResult
 
@@ -19,6 +20,7 @@ import com.manganew.reader.core.model.PageResult
  * Implementations must not expose request/session objects, Android Context,
  * parser implementations, or plugin runtime handles through this interface.
  */
+@ExperimentalMangaApi
 public interface MangaSource {
     /** Metadata and network permissions for this source instance. */
     public val descriptor: SourceDescriptor
