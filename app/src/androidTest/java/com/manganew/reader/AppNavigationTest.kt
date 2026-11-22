@@ -31,7 +31,7 @@ class AppNavigationTest {
         composeRule.onNodeWithText("来源管理").assertIsDisplayed()
 
         composeRule.onNodeWithContentDescription("搜索").performClick()
-        composeRule.onNodeWithText("搜索输入和结果状态将在后续阶段接入。").assertIsDisplayed()
+        composeRule.onNodeWithText("输入关键词开始搜索").assertIsDisplayed()
 
         composeRule.onNodeWithContentDescription("设置").performClick()
         composeRule.onNodeWithText("主题、阅读模式和动效设置将在后续阶段接入。").assertIsDisplayed()

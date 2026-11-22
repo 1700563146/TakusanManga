@@ -31,6 +31,13 @@ internal object SourceDetailDestination {
     fun createRoute(sourceId: String): String = "source/${Uri.encode(sourceId)}"
 }
 
+internal object ComicDetailDestination {
+    const val ComicIdArgument = "comicId"
+    const val Route = "comic/{$ComicIdArgument}"
+
+    fun createRoute(comicId: String): String = "comic/${Uri.encode(comicId)}"
+}
+
 internal enum class TopLevelDestination(
     val route: String,
     @param:StringRes val labelRes: Int,

@@ -16,9 +16,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.manganew.reader.designsystem.theme.MangaMotion
 import com.manganew.reader.designsystem.theme.MangaTheme
+import com.manganew.reader.feature.detail.ComicDetailRoute
 import com.manganew.reader.feature.home.HomeRoute
 import com.manganew.reader.feature.reader.ReaderScreen
-import com.manganew.reader.feature.search.SearchScreen
+import com.manganew.reader.feature.search.SearchRoute
 import com.manganew.reader.feature.settings.SettingsScreen
 import com.manganew.reader.feature.source.SourceDetailRoute
 import com.manganew.reader.feature.source.SourceListRoute
@@ -61,7 +62,11 @@ internal fun MangaNavHost(
             )
         }
         composable(AppRoute.Search) {
-            SearchScreen()
+            SearchRoute(
+                onOpenComic = { comicId ->
+                    navController.navigate(ComicDetailDestination.createRoute(comicId))
+                },
+            )
         }
         composable(AppRoute.Settings) {
             SettingsScreen()
@@ -80,6 +85,25 @@ internal fun MangaNavHost(
             SourceDetailRoute(
                 sourceId = sourceId,
                 onBack = navController::navigateUp,
+            )
+        }
+        composable(
+            route = ComicDetailDestination.Route,
+            arguments = listOf(
+                navArgument(ComicDetailDestination.ComicIdArgument) {
+                    type = NavType.StringType
+                },
+            ),
+        ) { backStackEntry ->
+            val comicId = backStackEntry.arguments
+                ?.getString(ComicDetailDestination.ComicIdArgument)
+                .orEmpty()
+            ComicDetailRoute(
+                comicId = comicId,
+                onBack = navController::navigateUp,
+                onReadChapter = { chapterId ->
+                    navController.navigate(ReaderDestination.createRoute(chapterId))
+                },
             )
         }
         composable(
