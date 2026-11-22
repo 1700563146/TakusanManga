@@ -1,0 +1,29 @@
+{
+  "comic": {
+    "title": "Demo Comic",
+    "cover": "/covers/demo.jpg",
+    "cover-image": "/covers/demo.jpg",
+    "status": "ongoing",
+    "nullable": null
+  },
+  "items": [
+    {
+      "title": "First",
+      "order": 1,
+      "tags": ["action", "adventure"]
+    },
+    {
+      "title": "Second",
+      "order": 2
+    },
+    {
+      "title": null,
+      "order": 3
+    }
+  ],
+  "matrix": [
+    [1, 2],
+    [3]
+  ],
+  "enabled": true
+}
