@@ -28,18 +28,17 @@ import com.manganew.reader.R
 import com.manganew.reader.designsystem.theme.MangaNewTheme
 import com.manganew.reader.designsystem.theme.MangaTheme
 import com.manganew.reader.feature.common.ComicCoverPlaceholder
-import com.manganew.reader.feature.search.PrototypeChapter
-import com.manganew.reader.feature.search.PrototypeComicDetail
 
 @Composable
 internal fun ComicDetailRoute(
+    sourceId: String,
     comicId: String,
     onBack: () -> Unit,
-    onReadChapter: (String) -> Unit,
+    onReadChapter: (sourceId: String, comicId: String, chapterId: String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: ComicDetailViewModel = viewModel(
-        key = "comic-detail-$comicId",
-        factory = ComicDetailViewModel.factory(comicId),
+        key = "comic-detail-$sourceId-$comicId",
+        factory = ComicDetailViewModel.factory(sourceId, comicId),
     ),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -47,7 +46,9 @@ internal fun ComicDetailRoute(
         state = state,
         onAction = viewModel::onAction,
         onBack = onBack,
-        onReadChapter = onReadChapter,
+        onReadChapter = { chapterId ->
+            onReadChapter(sourceId, comicId, chapterId)
+        },
         modifier = modifier,
     )
 }
@@ -274,6 +275,7 @@ private fun ComicDetailContentPreview() {
 }
 
 private val PreviewComic = PrototypeComicDetail(
+    sourceId = "preview-source",
     id = "preview-comic",
     title = "预览漫画",
     author = "预览作者",

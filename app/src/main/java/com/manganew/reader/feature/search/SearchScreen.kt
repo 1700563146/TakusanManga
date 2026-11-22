@@ -32,7 +32,7 @@ import com.manganew.reader.designsystem.theme.MangaTheme
 
 @Composable
 internal fun SearchRoute(
-    onOpenComic: (String) -> Unit,
+    onOpenComic: (sourceId: String, comicId: String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SearchViewModel = viewModel(),
 ) {
@@ -49,7 +49,7 @@ internal fun SearchRoute(
 internal fun SearchScreen(
     state: SearchUiState,
     onAction: (SearchAction) -> Unit,
-    onOpenComic: (String) -> Unit,
+    onOpenComic: (sourceId: String, comicId: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -150,7 +150,7 @@ internal fun SearchScreen(
                 ) { comic ->
                     ComicSummaryCard(
                         comic = comic,
-                        onOpen = { onOpenComic(comic.id) },
+                        onOpen = { onOpenComic(comic.sourceId, comic.id) },
                     )
                 }
             }
@@ -260,7 +260,7 @@ private fun SearchScreenPreview() {
         SearchScreen(
             state = SearchUiState(),
             onAction = {},
-            onOpenComic = {},
+            onOpenComic = { _, _ -> },
         )
     }
 }
@@ -275,7 +275,7 @@ private fun SearchContentPreview() {
                 result = SearchResultState.Content(listOf(PreviewComic)),
             ),
             onAction = {},
-            onOpenComic = {},
+            onOpenComic = { _, _ -> },
         )
     }
 }
@@ -290,12 +290,13 @@ private fun SearchErrorPreview() {
                 result = SearchResultState.Error(SearchError.Preview),
             ),
             onAction = {},
-            onOpenComic = {},
+            onOpenComic = { _, _ -> },
         )
     }
 }
 
 private val PreviewComic = PrototypeComicSummary(
+    sourceId = "preview-source",
     id = "preview-comic",
     title = "预览漫画",
     author = "预览作者",

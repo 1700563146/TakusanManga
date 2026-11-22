@@ -17,7 +17,7 @@ import androidx.compose.ui.test.swipeLeft
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.manganew.reader.feature.reader.ReaderPageTestTagPrefix
 import com.manganew.reader.feature.reader.ReaderViewportTestTag
-import com.manganew.reader.feature.source.FakeSourceStore
+import com.manganew.reader.data.AppRepositoryContainer
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -30,7 +30,7 @@ class ReaderUiTest {
 
     @Before
     fun resetSources() {
-        FakeSourceStore.resetForTests()
+        AppRepositoryContainer.resetForTests()
         composeRule.waitForIdle()
     }
 
@@ -108,6 +108,8 @@ class ReaderUiTest {
     }
 
     private fun openReader() {
+        composeRule.onNodeWithText("导入示例来源").performClick()
+        waitForText("示例漫画站")
         composeRule.onNodeWithText("打开阅读器骨架").performClick()
         waitForText("1 / 8")
     }

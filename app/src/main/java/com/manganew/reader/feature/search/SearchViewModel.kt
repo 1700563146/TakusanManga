@@ -2,6 +2,9 @@ package com.manganew.reader.feature.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.manganew.reader.core.model.ComicSummary
+import com.manganew.reader.core.repository.MangaRepository
+import com.manganew.reader.data.AppRepositoryContainer
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -37,7 +40,9 @@ internal sealed interface SearchAction {
     data object Retry : SearchAction
 }
 
-internal class SearchViewModel : ViewModel() {
+internal class SearchViewModel(
+    private val repository: MangaRepository = AppRepositoryContainer.repository,
+) : ViewModel() {
     private val _uiState = MutableStateFlow(SearchUiState())
     val uiState: StateFlow<SearchUiState> = _uiState.asStateFlow()
 
@@ -84,7 +89,7 @@ internal class SearchViewModel : ViewModel() {
     private suspend fun search(query: String) {
         _uiState.value = _uiState.value.copy(result = SearchResultState.Loading)
         try {
-            val comics = FakeComicRepository.search(query)
+            val comics = repository.search(query).items.map(ComicSummary::toUiModel)
             if (_uiState.value.query.trim() != query) return
             _uiState.value = _uiState.value.copy(
                 result = if (comics.isEmpty()) {
@@ -112,3 +117,12 @@ internal class SearchViewModel : ViewModel() {
         const val MaxQueryLength = 80
     }
 }
+
+private fun ComicSummary.toUiModel(): PrototypeComicSummary = PrototypeComicSummary(
+    sourceId = ref.sourceId.value,
+    id = ref.remoteId.value,
+    title = title,
+    author = author.orEmpty(),
+    summary = subtitle.orEmpty(),
+    tags = listOfNotNull(status, latestChapter),
+)

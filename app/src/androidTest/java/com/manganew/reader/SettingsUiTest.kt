@@ -16,7 +16,7 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.manganew.reader.feature.reader.ReaderViewportTestTag
 import com.manganew.reader.feature.settings.SettingsListTestTag
-import com.manganew.reader.feature.source.FakeSourceStore
+import com.manganew.reader.data.AppRepositoryContainer
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -29,7 +29,7 @@ class SettingsUiTest {
 
     @Before
     fun resetSources() {
-        FakeSourceStore.resetForTests()
+        AppRepositoryContainer.resetForTests()
         composeRule.waitForIdle()
     }
 
@@ -55,6 +55,8 @@ class SettingsUiTest {
         composeRule.onNodeWithText("4 张").performClick()
 
         composeRule.onNodeWithContentDescription("首页").performClick()
+        composeRule.onNodeWithText("导入示例来源").performClick()
+        waitForText("示例漫画站")
         composeRule.onNodeWithText("打开阅读器骨架").performClick()
         waitForText("1 / 8")
 

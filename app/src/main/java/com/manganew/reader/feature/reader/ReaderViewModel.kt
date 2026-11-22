@@ -5,6 +5,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.manganew.reader.core.model.RemoteId
+import com.manganew.reader.core.model.SourceId
+import com.manganew.reader.core.repository.MangaRepository
+import com.manganew.reader.data.AppRepositoryContainer
 import com.manganew.reader.feature.settings.ReadingDirection
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
@@ -41,10 +45,13 @@ internal sealed interface ReaderAction {
 }
 
 internal class ReaderViewModel(
+    private val sourceId: String,
+    private val comicId: String,
     private val chapterId: String,
     private val initialMode: ReaderMode,
     private val readingDirection: ReadingDirection,
     private val imageConcurrency: Int,
+    private val repository: MangaRepository = AppRepositoryContainer.repository,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<ReaderUiState>(ReaderUiState.Loading)
     val uiState: StateFlow<ReaderUiState> = _uiState.asStateFlow()
@@ -71,10 +78,25 @@ internal class ReaderViewModel(
         loadJob = viewModelScope.launch {
             _uiState.value = ReaderUiState.Loading
             try {
-                val chapter = FakeReaderRepository.loadChapter(chapterId)
-                _uiState.value = if (chapter == null) {
+                val snapshot = repository.getReaderChapter(
+                    sourceId = SourceId(sourceId),
+                    comicId = RemoteId(comicId),
+                    chapterId = RemoteId(chapterId),
+                )
+                _uiState.value = if (snapshot == null || snapshot.pages.isEmpty()) {
                     ReaderUiState.Error(ReaderError.ChapterNotFound)
                 } else {
+                    val chapter = PrototypeReaderChapter(
+                        id = snapshot.chapter.chapterId.value,
+                        title = snapshot.chapter.title,
+                        pages = snapshot.pages.mapIndexed { index, image ->
+                            PrototypeReaderPage(
+                                id = image.url,
+                                number = index + 1,
+                                totalPages = snapshot.pages.size,
+                            )
+                        },
+                    )
                     ReaderUiState.Content(
                         chapter = chapter,
                         mode = initialMode,
@@ -84,6 +106,8 @@ internal class ReaderViewModel(
                 }
             } catch (cancellation: CancellationException) {
                 throw cancellation
+            } catch (_: IllegalArgumentException) {
+                _uiState.value = ReaderUiState.Error(ReaderError.ChapterNotFound)
             } catch (_: IllegalStateException) {
                 _uiState.value = ReaderUiState.Error(ReaderError.ChapterNotFound)
             }
@@ -119,6 +143,8 @@ internal class ReaderViewModel(
 
     companion object {
         fun factory(
+            sourceId: String,
+            comicId: String,
             chapterId: String,
             initialMode: ReaderMode,
             readingDirection: ReadingDirection,
@@ -126,6 +152,8 @@ internal class ReaderViewModel(
         ): ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 ReaderViewModel(
+                    sourceId = sourceId,
+                    comicId = comicId,
                     chapterId = chapterId,
                     initialMode = initialMode,
                     readingDirection = readingDirection,

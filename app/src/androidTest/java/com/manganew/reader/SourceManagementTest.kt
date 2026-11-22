@@ -7,7 +7,7 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.manganew.reader.feature.source.FakeSourceStore
+import com.manganew.reader.data.AppRepositoryContainer
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -20,7 +20,7 @@ class SourceManagementTest {
 
     @Before
     fun resetFakeSources() {
-        FakeSourceStore.resetForTests()
+        AppRepositoryContainer.resetForTests()
         composeRule.waitForIdle()
     }
 
@@ -48,7 +48,7 @@ class SourceManagementTest {
 
         composeRule.onNodeWithText("查看详情").performClick()
         waitForText("来源详情")
-        composeRule.onNodeWithText("example.manga.local").assertIsDisplayed()
+        composeRule.onNodeWithText("example.test").assertIsDisplayed()
 
         composeRule.onNodeWithText("重新导入").performClick()
         waitForText("1.0.1")

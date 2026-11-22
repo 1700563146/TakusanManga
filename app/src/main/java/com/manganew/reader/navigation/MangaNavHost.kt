@@ -51,7 +51,13 @@ internal fun MangaNavHost(
         composable(AppRoute.Home) {
             HomeRoute(
                 onOpenReader = {
-                    navController.navigate(ReaderDestination.createRoute("demo-chapter"))
+                    navController.navigate(
+                        ReaderDestination.createRoute(
+                            sourceId = "demo-source",
+                            comicId = "star-traveler",
+                            chapterId = "star-1",
+                        ),
+                    )
                 },
                 onOpenSource = { sourceId ->
                     navController.navigate(SourceDetailDestination.createRoute(sourceId))
@@ -67,8 +73,10 @@ internal fun MangaNavHost(
         }
         composable(AppRoute.Search) {
             SearchRoute(
-                onOpenComic = { comicId ->
-                    navController.navigate(ComicDetailDestination.createRoute(comicId))
+                onOpenComic = { sourceId, comicId ->
+                    navController.navigate(
+                        ComicDetailDestination.createRoute(sourceId, comicId),
+                    )
                 },
             )
         }
@@ -97,31 +105,56 @@ internal fun MangaNavHost(
         composable(
             route = ComicDetailDestination.Route,
             arguments = listOf(
+                navArgument(ComicDetailDestination.SourceIdArgument) {
+                    type = NavType.StringType
+                },
                 navArgument(ComicDetailDestination.ComicIdArgument) {
                     type = NavType.StringType
                 },
             ),
         ) { backStackEntry ->
+            val sourceId = backStackEntry.arguments
+                ?.getString(ComicDetailDestination.SourceIdArgument)
+                .orEmpty()
             val comicId = backStackEntry.arguments
                 ?.getString(ComicDetailDestination.ComicIdArgument)
                 .orEmpty()
             ComicDetailRoute(
+                sourceId = sourceId,
                 comicId = comicId,
                 onBack = navController::navigateUp,
-                onReadChapter = { chapterId ->
-                    navController.navigate(ReaderDestination.createRoute(chapterId))
+                onReadChapter = { chapterSourceId, chapterComicId, chapterId ->
+                    navController.navigate(
+                        ReaderDestination.createRoute(
+                            sourceId = chapterSourceId,
+                            comicId = chapterComicId,
+                            chapterId = chapterId,
+                        ),
+                    )
                 },
             )
         }
         composable(
             route = ReaderDestination.Route,
             arguments = listOf(
+                navArgument(ReaderDestination.SourceIdArgument) {
+                    type = NavType.StringType
+                },
+                navArgument(ReaderDestination.ComicIdArgument) {
+                    type = NavType.StringType
+                },
                 navArgument(ReaderDestination.ChapterIdArgument) {
                     type = NavType.StringType
                 },
             ),
         ) { backStackEntry ->
             ReaderRoute(
+                sourceId = backStackEntry.arguments
+                    ?.getString(ReaderDestination.SourceIdArgument)
+                    .orEmpty(),
+                comicId = backStackEntry.arguments
+                    ?.getString(ReaderDestination.ComicIdArgument)
+                    .orEmpty(),
                 chapterId = backStackEntry.arguments
                     ?.getString(ReaderDestination.ChapterIdArgument)
                     .orEmpty(),

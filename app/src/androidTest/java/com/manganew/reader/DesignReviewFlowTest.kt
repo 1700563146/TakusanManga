@@ -19,7 +19,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.manganew.reader.feature.reader.ReaderViewportTestTag
 import com.manganew.reader.feature.search.SearchInputTestTag
 import com.manganew.reader.feature.settings.SettingsListTestTag
-import com.manganew.reader.feature.source.FakeSourceStore
+import com.manganew.reader.data.AppRepositoryContainer
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -32,7 +32,7 @@ class DesignReviewFlowTest {
 
     @Before
     fun resetSources() {
-        FakeSourceStore.resetForTests()
+        AppRepositoryContainer.resetForTests()
         composeRule.waitForIdle()
     }
 

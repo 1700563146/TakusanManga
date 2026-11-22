@@ -18,10 +18,17 @@ internal object AppRoute {
 }
 
 internal object ReaderDestination {
+    const val SourceIdArgument = "sourceId"
+    const val ComicIdArgument = "comicId"
     const val ChapterIdArgument = "chapterId"
-    const val Route = "reader/{$ChapterIdArgument}"
+    const val Route =
+        "reader/{$SourceIdArgument}/{$ComicIdArgument}/{$ChapterIdArgument}"
 
-    fun createRoute(chapterId: String): String = "reader/${Uri.encode(chapterId)}"
+    fun createRoute(
+        sourceId: String,
+        comicId: String,
+        chapterId: String,
+    ): String = "reader/${Uri.encode(sourceId)}/${Uri.encode(comicId)}/${Uri.encode(chapterId)}"
 }
 
 internal object SourceDetailDestination {
@@ -32,10 +39,14 @@ internal object SourceDetailDestination {
 }
 
 internal object ComicDetailDestination {
+    const val SourceIdArgument = "sourceId"
     const val ComicIdArgument = "comicId"
-    const val Route = "comic/{$ComicIdArgument}"
+    const val Route = "comic/{$SourceIdArgument}/{$ComicIdArgument}"
 
-    fun createRoute(comicId: String): String = "comic/${Uri.encode(comicId)}"
+    fun createRoute(
+        sourceId: String,
+        comicId: String,
+    ): String = "comic/${Uri.encode(sourceId)}/${Uri.encode(comicId)}"
 }
 
 internal enum class TopLevelDestination(

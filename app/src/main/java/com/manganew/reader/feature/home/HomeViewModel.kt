@@ -2,8 +2,10 @@ package com.manganew.reader.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.manganew.reader.feature.source.FakeSourceStore
+import com.manganew.reader.core.repository.MangaRepository
+import com.manganew.reader.data.AppRepositoryContainer
 import com.manganew.reader.feature.source.PrototypeSource
+import com.manganew.reader.feature.source.toUiModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,7 +32,9 @@ internal sealed interface HomeAction {
     data object Retry : HomeAction
 }
 
-internal class HomeViewModel : ViewModel() {
+internal class HomeViewModel(
+    private val repository: MangaRepository = AppRepositoryContainer.repository,
+) : ViewModel() {
     private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
@@ -38,11 +42,12 @@ internal class HomeViewModel : ViewModel() {
 
     init {
         viewModelScope.launch {
-            FakeSourceStore.sources.collectLatest { sources ->
-                _uiState.value = if (sources.isEmpty()) {
+            repository.installedSources.collectLatest { sources ->
+                val uiSources = sources.map { it.toUiModel() }
+                _uiState.value = if (uiSources.isEmpty()) {
                     HomeUiState.Empty
                 } else {
-                    HomeUiState.Content(sources.take(2))
+                    HomeUiState.Content(uiSources.take(2))
                 }
             }
         }
@@ -61,7 +66,7 @@ internal class HomeViewModel : ViewModel() {
         operationJob = viewModelScope.launch {
             _uiState.value = HomeUiState.Loading
             try {
-                FakeSourceStore.importSampleSource()
+                repository.installSampleSource()
             } catch (cancellation: CancellationException) {
                 throw cancellation
             } catch (_: IllegalStateException) {
@@ -71,7 +76,7 @@ internal class HomeViewModel : ViewModel() {
     }
 
     private fun restoreFromStore() {
-        val sources = FakeSourceStore.sources.value
+        val sources = repository.installedSources.value.map { it.toUiModel() }
         _uiState.value = if (sources.isEmpty()) {
             HomeUiState.Empty
         } else {

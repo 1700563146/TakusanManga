@@ -2,6 +2,9 @@ package com.manganew.reader.feature.source
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.manganew.reader.core.model.SourceId
+import com.manganew.reader.core.repository.MangaRepository
+import com.manganew.reader.data.AppRepositoryContainer
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -37,7 +40,9 @@ internal sealed interface SourceListEvent {
     data class SourceDeleted(val sourceName: String) : SourceListEvent
 }
 
-internal class SourceListViewModel : ViewModel() {
+internal class SourceListViewModel(
+    private val repository: MangaRepository = AppRepositoryContainer.repository,
+) : ViewModel() {
     private val _uiState = MutableStateFlow<SourceListUiState>(SourceListUiState.Loading)
     val uiState: StateFlow<SourceListUiState> = _uiState.asStateFlow()
 
@@ -48,11 +53,12 @@ internal class SourceListViewModel : ViewModel() {
 
     init {
         viewModelScope.launch {
-            FakeSourceStore.sources.collectLatest { sources ->
-                _uiState.value = if (sources.isEmpty()) {
+            repository.installedSources.collectLatest { sources ->
+                val uiSources = sources.map { it.toUiModel() }
+                _uiState.value = if (uiSources.isEmpty()) {
                     SourceListUiState.Empty
                 } else {
-                    SourceListUiState.Content(sources)
+                    SourceListUiState.Content(uiSources)
                 }
             }
         }
@@ -64,8 +70,9 @@ internal class SourceListViewModel : ViewModel() {
             SourceListAction.PreviewError -> _uiState.value =
                 SourceListUiState.Error(SourceListError.Preview)
             SourceListAction.Retry -> restoreFromStore()
-            is SourceListAction.ToggleEnabled ->
-                FakeSourceStore.setEnabled(action.sourceId, action.enabled)
+            is SourceListAction.ToggleEnabled -> viewModelScope.launch {
+                repository.setEnabled(SourceId(action.sourceId), action.enabled)
+            }
             is SourceListAction.Delete -> deleteSource(action.sourceId)
         }
     }
@@ -75,7 +82,7 @@ internal class SourceListViewModel : ViewModel() {
         operationJob = viewModelScope.launch {
             _uiState.value = SourceListUiState.Loading
             try {
-                FakeSourceStore.importSampleSource()
+                repository.installSampleSource()
             } catch (cancellation: CancellationException) {
                 throw cancellation
             } catch (_: IllegalStateException) {
@@ -85,13 +92,15 @@ internal class SourceListViewModel : ViewModel() {
     }
 
     private fun deleteSource(sourceId: String) {
-        val sourceName = FakeSourceStore.findSource(sourceId)?.name ?: return
+        val installedSource = repository.installedSources.value
+            .firstOrNull { it.descriptor.id.value == sourceId }
+            ?: return
         operationJob?.cancel()
         operationJob = viewModelScope.launch {
             _uiState.value = SourceListUiState.Loading
             try {
-                FakeSourceStore.deleteSource(sourceId)
-                _events.emit(SourceListEvent.SourceDeleted(sourceName))
+                repository.remove(SourceId(sourceId))
+                _events.emit(SourceListEvent.SourceDeleted(installedSource.descriptor.name))
             } catch (cancellation: CancellationException) {
                 throw cancellation
             }
@@ -99,7 +108,7 @@ internal class SourceListViewModel : ViewModel() {
     }
 
     private fun restoreFromStore() {
-        val sources = FakeSourceStore.sources.value
+        val sources = repository.installedSources.value.map { it.toUiModel() }
         _uiState.value = if (sources.isEmpty()) {
             SourceListUiState.Empty
         } else {

@@ -62,6 +62,8 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 
 @Composable
 internal fun ReaderRoute(
+    sourceId: String,
+    comicId: String,
     chapterId: String,
     onBack: () -> Unit,
     initialMode: ReaderMode,
@@ -69,8 +71,10 @@ internal fun ReaderRoute(
     imageConcurrency: Int,
     modifier: Modifier = Modifier,
     viewModel: ReaderViewModel = viewModel(
-        key = "reader-$chapterId",
+        key = "reader-$sourceId-$comicId-$chapterId",
         factory = ReaderViewModel.factory(
+            sourceId = sourceId,
+            comicId = comicId,
             chapterId = chapterId,
             initialMode = initialMode,
             readingDirection = readingDirection,

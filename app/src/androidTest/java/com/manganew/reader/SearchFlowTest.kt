@@ -10,7 +10,7 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.manganew.reader.feature.search.SearchInputTestTag
-import com.manganew.reader.feature.source.FakeSourceStore
+import com.manganew.reader.data.AppRepositoryContainer
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -23,12 +23,14 @@ class SearchFlowTest {
 
     @Before
     fun resetSources() {
-        FakeSourceStore.resetForTests()
+        AppRepositoryContainer.resetForTests()
         composeRule.waitForIdle()
     }
 
     @Test
     fun searchResultOpensDetailAndChapterReader() {
+        composeRule.onNodeWithText("导入示例来源").performClick()
+        waitForText("示例漫画站")
         composeRule.onNodeWithContentDescription("搜索").performClick()
         composeRule.onNodeWithTag(SearchInputTestTag).performTextInput("星海")
 

@@ -5,6 +5,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.manganew.reader.core.model.SourceId
+import com.manganew.reader.core.repository.MangaRepository
+import com.manganew.reader.data.AppRepositoryContainer
+import com.manganew.reader.source.api.SourceTestResult
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -46,6 +50,7 @@ internal sealed interface SourceDetailEffect {
 
 internal class SourceDetailViewModel(
     private val sourceId: String,
+    private val repository: MangaRepository = AppRepositoryContainer.repository,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<SourceDetailUiState>(SourceDetailUiState.Loading)
     val uiState: StateFlow<SourceDetailUiState> = _uiState.asStateFlow()
@@ -73,7 +78,7 @@ internal class SourceDetailViewModel(
         operationJob = viewModelScope.launch {
             _uiState.value = SourceDetailUiState.Loading
             delay(180)
-            val source = FakeSourceStore.findSource(sourceId)
+            val source = repository.getInstalledSource(SourceId(sourceId))?.toUiModel()
             _uiState.value = if (source == null) {
                 SourceDetailUiState.Error(SourceDetailError.NotFound)
             } else {
@@ -91,7 +96,10 @@ internal class SourceDetailViewModel(
                 testFeedback = null,
             )
             try {
-                val feedback = FakeSourceStore.testSource(sourceId)
+                val feedback = when (repository.testConnection(SourceId(sourceId))) {
+                    is SourceTestResult.Success -> SourceTestFeedback.Success
+                    is SourceTestResult.Failure -> SourceTestFeedback.NotFound
+                }
                 _uiState.value = current.copy(
                     isTesting = false,
                     testFeedback = feedback,
@@ -111,8 +119,8 @@ internal class SourceDetailViewModel(
                 testFeedback = null,
             )
             try {
-                FakeSourceStore.reimportSource(sourceId)
-                val source = FakeSourceStore.findSource(sourceId)
+                repository.reimportSource(SourceId(sourceId))
+                val source = repository.getInstalledSource(SourceId(sourceId))?.toUiModel()
                 _uiState.value = if (source == null) {
                     SourceDetailUiState.Error(SourceDetailError.NotFound)
                 } else {
@@ -133,7 +141,7 @@ internal class SourceDetailViewModel(
                 testFeedback = null,
             )
             try {
-                FakeSourceStore.deleteSource(sourceId)
+                repository.remove(SourceId(sourceId))
                 _effects.emit(SourceDetailEffect.SourceDeleted)
             } catch (cancellation: CancellationException) {
                 throw cancellation

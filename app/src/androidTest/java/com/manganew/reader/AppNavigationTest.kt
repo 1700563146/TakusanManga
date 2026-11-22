@@ -7,7 +7,7 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.manganew.reader.feature.source.FakeSourceStore
+import com.manganew.reader.data.AppRepositoryContainer
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -20,7 +20,7 @@ class AppNavigationTest {
 
     @Before
     fun resetFakeSources() {
-        FakeSourceStore.resetForTests()
+        AppRepositoryContainer.resetForTests()
         composeRule.waitForIdle()
     }
 
@@ -40,10 +40,12 @@ class AppNavigationTest {
 
     @Test
     fun readerRouteHidesBottomNavigationAndCanReturnHome() {
+        composeRule.onNodeWithText("导入示例来源").performClick()
+        waitForText("示例漫画站")
         composeRule.onNodeWithText("打开阅读器骨架").performClick()
 
         waitForText("1 / 8")
-        composeRule.onNodeWithText("示例章节").assertIsDisplayed()
+        composeRule.onNodeWithText("第 1 话 · 失联信号").assertIsDisplayed()
         composeRule.onNodeWithContentDescription("首页").assertDoesNotExist()
 
         composeRule.onNodeWithText("返回").performClick()

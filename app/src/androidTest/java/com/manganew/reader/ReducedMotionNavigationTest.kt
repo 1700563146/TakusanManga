@@ -7,7 +7,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.rememberNavController
 import com.manganew.reader.designsystem.theme.MangaNewTheme
-import com.manganew.reader.feature.source.FakeSourceStore
+import com.manganew.reader.data.AppRepositoryContainer
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -18,7 +18,7 @@ class ReducedMotionNavigationTest {
 
     @Before
     fun resetFakeSources() {
-        FakeSourceStore.resetForTests()
+        AppRepositoryContainer.resetForTests()
     }
 
     @Test
