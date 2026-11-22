@@ -264,3 +264,41 @@ private fun SearchScreenPreview() {
         )
     }
 }
+
+@Preview(showBackground = true, name = "Search Content")
+@Composable
+private fun SearchContentPreview() {
+    MangaNewTheme {
+        SearchScreen(
+            state = SearchUiState(
+                query = "星海",
+                result = SearchResultState.Content(listOf(PreviewComic)),
+            ),
+            onAction = {},
+            onOpenComic = {},
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "Search Error")
+@Composable
+private fun SearchErrorPreview() {
+    MangaNewTheme {
+        SearchScreen(
+            state = SearchUiState(
+                query = "星海",
+                result = SearchResultState.Error(SearchError.Preview),
+            ),
+            onAction = {},
+            onOpenComic = {},
+        )
+    }
+}
+
+private val PreviewComic = PrototypeComicSummary(
+    id = "preview-comic",
+    title = "预览漫画",
+    author = "预览作者",
+    summary = "用于检查搜索结果卡片布局的本地示例。",
+    tags = listOf("示例", "原型"),
+)

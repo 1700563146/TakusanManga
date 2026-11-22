@@ -259,3 +259,28 @@ private fun ComicDetailPreview() {
         )
     }
 }
+
+@Preview(showBackground = true, name = "Comic Detail Content")
+@Composable
+private fun ComicDetailContentPreview() {
+    MangaNewTheme {
+        ComicDetailScreen(
+            state = ComicDetailUiState.Content(PreviewComic),
+            onAction = {},
+            onBack = {},
+            onReadChapter = {},
+        )
+    }
+}
+
+private val PreviewComic = PrototypeComicDetail(
+    id = "preview-comic",
+    title = "预览漫画",
+    author = "预览作者",
+    description = "用于检查漫画详情页在章节列表和长简介下的布局。",
+    tags = listOf("示例", "原型"),
+    chapters = listOf(
+        PrototypeChapter("preview-1", "第 1 话 · 开始", "2026-11-22"),
+        PrototypeChapter("preview-2", "第 2 话 · 继续", "2026-11-22"),
+    ),
+)

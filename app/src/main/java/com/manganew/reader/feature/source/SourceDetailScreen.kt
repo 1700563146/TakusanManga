@@ -259,3 +259,37 @@ private fun SourceDetailPreview() {
         )
     }
 }
+
+@Preview(showBackground = true, name = "Source Detail Content")
+@Composable
+private fun SourceDetailContentPreview() {
+    MangaNewTheme {
+        SourceDetailScreen(
+            state = SourceDetailUiState.Content(PreviewSource),
+            onAction = {},
+            onBack = {},
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "Source Detail Error")
+@Composable
+private fun SourceDetailErrorPreview() {
+    MangaNewTheme {
+        SourceDetailScreen(
+            state = SourceDetailUiState.Error(SourceDetailError.NotFound),
+            onAction = {},
+            onBack = {},
+        )
+    }
+}
+
+private val PreviewSource = PrototypeSource(
+    id = "preview-source",
+    name = "预览来源",
+    host = "preview.local",
+    format = "Native JSON",
+    version = "1.0.0",
+    enabled = true,
+    capabilities = listOf("搜索", "详情", "章节", "页面"),
+)

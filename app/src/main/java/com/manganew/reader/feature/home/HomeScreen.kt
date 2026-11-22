@@ -24,6 +24,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.manganew.reader.R
 import com.manganew.reader.designsystem.theme.MangaNewTheme
 import com.manganew.reader.designsystem.theme.MangaTheme
+import com.manganew.reader.feature.source.PrototypeSource
 import com.manganew.reader.feature.source.SourceSummaryCard
 
 @Composable
@@ -223,3 +224,39 @@ private fun HomeScreenPreview() {
         )
     }
 }
+
+@Preview(showBackground = true, name = "Home Content")
+@Composable
+private fun HomeContentPreview() {
+    MangaNewTheme {
+        HomeScreen(
+            state = HomeUiState.Content(listOf(PreviewSource)),
+            onAction = {},
+            onOpenReader = {},
+            onOpenSource = {},
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "Home Error")
+@Composable
+private fun HomeErrorPreview() {
+    MangaNewTheme {
+        HomeScreen(
+            state = HomeUiState.Error(HomeError.Preview),
+            onAction = {},
+            onOpenReader = {},
+            onOpenSource = {},
+        )
+    }
+}
+
+private val PreviewSource = PrototypeSource(
+    id = "preview-source",
+    name = "预览来源",
+    host = "preview.local",
+    format = "Native JSON",
+    version = "1.0.0",
+    enabled = true,
+    capabilities = listOf("搜索", "详情", "章节", "页面"),
+)

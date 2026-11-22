@@ -239,3 +239,37 @@ private fun SourceListScreenPreview() {
         )
     }
 }
+
+@Preview(showBackground = true, name = "Source List Content")
+@Composable
+private fun SourceListContentPreview() {
+    MangaNewTheme {
+        SourceListScreen(
+            state = SourceListUiState.Content(listOf(PreviewSource)),
+            onAction = {},
+            onOpenSource = {},
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "Source List Error")
+@Composable
+private fun SourceListErrorPreview() {
+    MangaNewTheme {
+        SourceListScreen(
+            state = SourceListUiState.Error(SourceListError.Preview),
+            onAction = {},
+            onOpenSource = {},
+        )
+    }
+}
+
+private val PreviewSource = PrototypeSource(
+    id = "preview-source",
+    name = "预览来源",
+    host = "preview.local",
+    format = "Native JSON",
+    version = "1.0.0",
+    enabled = true,
+    capabilities = listOf("搜索", "详情", "章节", "页面"),
+)

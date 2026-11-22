@@ -636,3 +636,52 @@ private fun ReaderPreview() {
         )
     }
 }
+
+@Preview(
+    showBackground = true,
+    name = "Reader Paged",
+    widthDp = 360,
+    heightDp = 720,
+)
+@Composable
+private fun ReaderPagedPreview() {
+    MangaNewTheme(themeMode = com.manganew.reader.designsystem.theme.ThemeMode.Dark) {
+        ReaderScreen(
+            state = ReaderUiState.Content(PreviewChapter),
+            onAction = {},
+            onBack = {},
+        )
+    }
+}
+
+@Preview(
+    showBackground = true,
+    name = "Reader Vertical",
+    widthDp = 360,
+    heightDp = 720,
+)
+@Composable
+private fun ReaderVerticalPreview() {
+    MangaNewTheme(themeMode = com.manganew.reader.designsystem.theme.ThemeMode.Dark) {
+        ReaderScreen(
+            state = ReaderUiState.Content(
+                chapter = PreviewChapter,
+                mode = ReaderMode.Vertical,
+            ),
+            onAction = {},
+            onBack = {},
+        )
+    }
+}
+
+private val PreviewChapter = PrototypeReaderChapter(
+    id = "preview-chapter",
+    title = "预览章节",
+    pages = (1..3).map { page ->
+        PrototypeReaderPage(
+            id = "preview-page-$page",
+            number = page,
+            totalPages = 3,
+        )
+    },
+)
