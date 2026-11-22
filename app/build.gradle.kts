@@ -74,6 +74,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.jsoup)
     implementation(libs.okhttp)
 
     debugImplementation(libs.androidx.compose.ui.tooling)

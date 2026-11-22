@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <title>Parser fixture</title>
+</head>
+<body>
+<main class="comic-list">
+    <article class="comic-item" data-state="published">
+        <a class="title" href="/comic/one"><span>First</span> Comic</a>
+        <img class="cover" data-src="../images/cover-one.jpg" alt="">
+    </article>
+    <article class="comic-item">
+        <a class="title" href="https://cdn.example.test/comic/two">Second Comic</a>
+        <img class="cover" data-src="" alt="empty cover">
+    </article>
+    <article class="comic-item">
+        <a class="title" href="javascript:void(0)">Third Comic</a>
+        <img class="cover" alt="missing cover">
+    </article>
+</main>
+<form class="search-form">
+    <input class="keyword" name="q" value="demo">
+    <input class="empty-keyword" name="empty" value="">
+</form>
+<script>fetch("http://127.0.0.1:9/must-not-be-requested")</script>
+</body>
+</html>
