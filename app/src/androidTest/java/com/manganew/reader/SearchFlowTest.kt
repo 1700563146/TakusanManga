@@ -39,7 +39,7 @@ class SearchFlowTest {
         composeRule.onNodeWithText("第 1 话 · 失联信号").assertIsDisplayed()
 
         composeRule.onNodeWithContentDescription("阅读 第 1 话 · 失联信号").performClick()
-        waitForText("阅读器路由测试：star-1")
+        waitForText("1 / 8")
     }
 
     @Test

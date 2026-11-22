@@ -2,6 +2,7 @@ package com.manganew.reader
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -41,11 +42,17 @@ class AppNavigationTest {
     fun readerRouteHidesBottomNavigationAndCanReturnHome() {
         composeRule.onNodeWithText("打开阅读器骨架").performClick()
 
-        composeRule.onNodeWithText("阅读器").assertIsDisplayed()
-        composeRule.onNodeWithText("阅读器路由测试：demo-chapter").assertIsDisplayed()
+        waitForText("1 / 8")
+        composeRule.onNodeWithText("示例章节").assertIsDisplayed()
         composeRule.onNodeWithContentDescription("首页").assertDoesNotExist()
 
         composeRule.onNodeWithText("返回").performClick()
         composeRule.onNodeWithContentDescription("首页").assertIsDisplayed()
+    }
+
+    private fun waitForText(text: String) {
+        composeRule.waitUntil(timeoutMillis = 5_000) {
+            composeRule.onAllNodesWithText(text).fetchSemanticsNodes().isNotEmpty()
+        }
     }
 }

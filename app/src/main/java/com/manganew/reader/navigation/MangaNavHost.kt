@@ -18,7 +18,7 @@ import com.manganew.reader.designsystem.theme.MangaMotion
 import com.manganew.reader.designsystem.theme.MangaTheme
 import com.manganew.reader.feature.detail.ComicDetailRoute
 import com.manganew.reader.feature.home.HomeRoute
-import com.manganew.reader.feature.reader.ReaderScreen
+import com.manganew.reader.feature.reader.ReaderRoute
 import com.manganew.reader.feature.search.SearchRoute
 import com.manganew.reader.feature.settings.SettingsScreen
 import com.manganew.reader.feature.source.SourceDetailRoute
@@ -114,7 +114,7 @@ internal fun MangaNavHost(
                 },
             ),
         ) { backStackEntry ->
-            ReaderScreen(
+            ReaderRoute(
                 chapterId = backStackEntry.arguments
                     ?.getString(ReaderDestination.ChapterIdArgument)
                     .orEmpty(),

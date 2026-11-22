@@ -45,6 +45,7 @@ internal data class MangaColors(
     val textSecondary: Color,
     val readerBackground: Color,
     val readerControlsOverlay: Color,
+    val onReaderControls: Color,
     val scrim: Color,
 )
 
@@ -80,6 +81,7 @@ internal val LightMangaColors = MangaColors(
     textSecondary = Color(0xFF5E6472),
     readerBackground = Color(0xFF0B0D12),
     readerControlsOverlay = Color(0xE61A1D24),
+    onReaderControls = Color(0xFFFFFFFF),
     scrim = Color(0x99000000),
 )
 
@@ -115,6 +117,7 @@ internal val DarkMangaColors = MangaColors(
     textSecondary = Color(0xFFB1B7C6),
     readerBackground = Color(0xFF090A0D),
     readerControlsOverlay = Color(0xE61A1D24),
+    onReaderControls = Color(0xFFFFFFFF),
     scrim = Color(0xCC000000),
 )
 
