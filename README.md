@@ -2,7 +2,7 @@
 
 TakusanManga 是一个使用 Kotlin 与 Jetpack Compose 开发的 Android 原生在线漫画阅读器。用户自行导入外部来源规则，应用通过统一来源接口解析内容并在阅读器中展示。
 
-> 当前状态：Android 工程骨架、Design System 主题基础、App Shell 导航以及 Home/来源管理/搜索/详情/Reader/Settings UI 原型已完成，并通过 M1 UI 原型测试与设计审查；真实业务数据尚未接入。
+> 当前状态：M1 UI 原型已通过测试与设计审查，M2 Domain Models 已建立；真实的来源 Repository、网络、解析和业务数据尚未接入。
 
 ## 项目边界
 
