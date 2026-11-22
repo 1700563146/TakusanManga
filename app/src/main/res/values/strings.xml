@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MangaNEW</string>
-    <string name="app_skeleton_ready">工程骨架已就绪</string>
+    <string name="nav_home">首页</string>
+    <string name="nav_sources">来源</string>
+    <string name="nav_search">搜索</string>
+    <string name="nav_settings">设置</string>
+    <string name="home_title">首页</string>
+    <string name="home_description">来源与最近阅读将在下一阶段接入。</string>
+    <string name="sources_title">来源管理</string>
+    <string name="sources_description">来源列表、导入和诊断将在后续阶段接入。</string>
+    <string name="search_title">搜索</string>
+    <string name="search_description">搜索输入和结果状态将在后续阶段接入。</string>
+    <string name="settings_title">设置</string>
+    <string name="settings_description">主题、阅读模式和动效设置将在后续阶段接入。</string>
+    <string name="open_reader_skeleton">打开阅读器骨架</string>
+    <string name="reader_title">阅读器</string>
+    <string name="reader_description">阅读器路由测试：%1$s</string>
+    <string name="reader_unknown_chapter">未知章节</string>
+    <string name="reader_back">返回</string>
 </resources>
