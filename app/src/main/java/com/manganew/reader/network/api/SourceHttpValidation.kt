@@ -31,6 +31,9 @@ internal object SourceHttpHeaderValidation {
     fun normalizeResponseHeaders(headers: Map<String, String>): Map<String, String> =
         normalize(headers, forbiddenNames = sensitiveResponseHeaders)
 
+    fun isSensitiveResponseHeader(name: String): Boolean =
+        name.lowercase(Locale.ROOT) in sensitiveResponseHeaders
+
     private fun normalize(
         headers: Map<String, String>,
         forbiddenNames: Set<String>,

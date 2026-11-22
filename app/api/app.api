@@ -155,6 +155,11 @@ public final class com/manganew/reader/core/model/SourceId {
 	public final synthetic fun unbox-impl ()Ljava/lang/String;
 }
 
+public abstract interface class com/manganew/reader/network/api/SourceHttpClient : java/lang/AutoCloseable {
+	public abstract fun close ()V
+	public abstract fun execute (Lcom/manganew/reader/network/api/SourceHttpRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
 public abstract interface class com/manganew/reader/network/api/SourceHttpError {
 }
 
@@ -292,6 +297,33 @@ public final class com/manganew/reader/network/api/SourceHttpResponse {
 	public final fun getHeaders ()Ljava/util/Map;
 	public final fun getStatusCode ()I
 	public final fun isSuccessful ()Z
+}
+
+public abstract interface class com/manganew/reader/network/api/SourceHttpResult {
+}
+
+public final class com/manganew/reader/network/api/SourceHttpResult$Failure : com/manganew/reader/network/api/SourceHttpResult {
+	public static final field $stable I
+	public fun <init> (Lcom/manganew/reader/network/api/SourceHttpError;)V
+	public final fun component1 ()Lcom/manganew/reader/network/api/SourceHttpError;
+	public final fun copy (Lcom/manganew/reader/network/api/SourceHttpError;)Lcom/manganew/reader/network/api/SourceHttpResult$Failure;
+	public static synthetic fun copy$default (Lcom/manganew/reader/network/api/SourceHttpResult$Failure;Lcom/manganew/reader/network/api/SourceHttpError;ILjava/lang/Object;)Lcom/manganew/reader/network/api/SourceHttpResult$Failure;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getError ()Lcom/manganew/reader/network/api/SourceHttpError;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/manganew/reader/network/api/SourceHttpResult$Success : com/manganew/reader/network/api/SourceHttpResult {
+	public static final field $stable I
+	public fun <init> (Lcom/manganew/reader/network/api/SourceHttpResponse;)V
+	public final fun component1 ()Lcom/manganew/reader/network/api/SourceHttpResponse;
+	public final fun copy (Lcom/manganew/reader/network/api/SourceHttpResponse;)Lcom/manganew/reader/network/api/SourceHttpResult$Success;
+	public static synthetic fun copy$default (Lcom/manganew/reader/network/api/SourceHttpResult$Success;Lcom/manganew/reader/network/api/SourceHttpResponse;ILjava/lang/Object;)Lcom/manganew/reader/network/api/SourceHttpResult$Success;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getResponse ()Lcom/manganew/reader/network/api/SourceHttpResponse;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/manganew/reader/source/api/InstalledSourceSummary {
