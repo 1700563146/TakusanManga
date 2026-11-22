@@ -9,17 +9,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-
-private val StartupPagePadding = 24.dp
-private val StartupContentGap = 8.dp
+import com.manganew.reader.designsystem.theme.MangaNewTheme
+import com.manganew.reader.designsystem.theme.MangaTheme
+import com.manganew.reader.designsystem.theme.ThemeMode
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,24 +31,29 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 internal fun MangaNewApp() {
-    MaterialTheme {
-        Surface(modifier = Modifier.fillMaxSize()) {
+    MangaNewTheme(themeMode = ThemeMode.FollowSystem) {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MangaTheme.colors.background,
+            contentColor = MangaTheme.colors.textPrimary,
+        ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .safeDrawingPadding()
-                    .padding(StartupPagePadding),
+                    .padding(MangaTheme.spacing.pageHorizontal),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
                 Text(
                     text = stringResource(R.string.app_name),
-                    style = MaterialTheme.typography.headlineLarge,
+                    style = MangaTheme.typography.headline,
                 )
                 Text(
                     text = stringResource(R.string.app_skeleton_ready),
-                    modifier = Modifier.padding(top = StartupContentGap),
-                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.padding(top = MangaTheme.spacing.contentGap),
+                    color = MangaTheme.colors.textSecondary,
+                    style = MangaTheme.typography.body,
                 )
             }
         }
