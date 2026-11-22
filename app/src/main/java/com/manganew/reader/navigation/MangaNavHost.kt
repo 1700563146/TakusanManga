@@ -20,13 +20,17 @@ import com.manganew.reader.feature.detail.ComicDetailRoute
 import com.manganew.reader.feature.home.HomeRoute
 import com.manganew.reader.feature.reader.ReaderRoute
 import com.manganew.reader.feature.search.SearchRoute
-import com.manganew.reader.feature.settings.SettingsScreen
+import com.manganew.reader.feature.settings.AppSettings
+import com.manganew.reader.feature.settings.SettingsAction
+import com.manganew.reader.feature.settings.SettingsRoute
 import com.manganew.reader.feature.source.SourceDetailRoute
 import com.manganew.reader.feature.source.SourceListRoute
 
 @Composable
 internal fun MangaNavHost(
     navController: NavHostController,
+    settings: AppSettings,
+    onSettingsAction: (SettingsAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val motion = MangaTheme.motion
@@ -69,7 +73,10 @@ internal fun MangaNavHost(
             )
         }
         composable(AppRoute.Settings) {
-            SettingsScreen()
+            SettingsRoute(
+                settings = settings,
+                onAction = onSettingsAction,
+            )
         }
         composable(
             route = SourceDetailDestination.Route,
@@ -119,6 +126,9 @@ internal fun MangaNavHost(
                     ?.getString(ReaderDestination.ChapterIdArgument)
                     .orEmpty(),
                 onBack = navController::navigateUp,
+                initialMode = settings.readerMode,
+                readingDirection = settings.readingDirection,
+                imageConcurrency = settings.imageConcurrency,
             )
         }
     }

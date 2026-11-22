@@ -57,16 +57,25 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.manganew.reader.R
 import com.manganew.reader.designsystem.theme.MangaNewTheme
 import com.manganew.reader.designsystem.theme.MangaTheme
+import com.manganew.reader.feature.settings.ReadingDirection
 import kotlinx.coroutines.flow.distinctUntilChanged
 
 @Composable
 internal fun ReaderRoute(
     chapterId: String,
     onBack: () -> Unit,
+    initialMode: ReaderMode,
+    readingDirection: ReadingDirection,
+    imageConcurrency: Int,
     modifier: Modifier = Modifier,
     viewModel: ReaderViewModel = viewModel(
         key = "reader-$chapterId",
-        factory = ReaderViewModel.factory(chapterId),
+        factory = ReaderViewModel.factory(
+            chapterId = chapterId,
+            initialMode = initialMode,
+            readingDirection = readingDirection,
+            imageConcurrency = imageConcurrency,
+        ),
     ),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -191,6 +200,7 @@ private fun PagedReader(
 
     HorizontalPager(
         state = pagerState,
+        reverseLayout = state.readingDirection == ReadingDirection.RightToLeft,
         modifier = Modifier
             .fillMaxSize()
             .testTag(ReaderViewportTestTag),
@@ -200,9 +210,21 @@ private fun PagedReader(
             modifier = Modifier.fillMaxSize(),
             onSingleTap = { zone ->
                 when (zone) {
-                    ReaderTapZone.Previous -> onAction(ReaderAction.PreviousPage)
+                    ReaderTapZone.Left -> onAction(
+                        if (state.readingDirection == ReadingDirection.LeftToRight) {
+                            ReaderAction.PreviousPage
+                        } else {
+                            ReaderAction.NextPage
+                        },
+                    )
                     ReaderTapZone.Center -> onAction(ReaderAction.ToggleToolbar)
-                    ReaderTapZone.Next -> onAction(ReaderAction.NextPage)
+                    ReaderTapZone.Right -> onAction(
+                        if (state.readingDirection == ReadingDirection.LeftToRight) {
+                            ReaderAction.NextPage
+                        } else {
+                            ReaderAction.PreviousPage
+                        },
+                    )
                 }
             },
         )
@@ -341,6 +363,27 @@ private fun ReaderBottomBar(
                     )
                 }
             }
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    text = stringResource(
+                        if (state.readingDirection == ReadingDirection.LeftToRight) {
+                            R.string.reader_direction_ltr
+                        } else {
+                            R.string.reader_direction_rtl
+                        },
+                    ),
+                    color = MangaTheme.colors.onReaderControls,
+                    style = MangaTheme.typography.caption,
+                )
+                Text(
+                    text = stringResource(
+                        R.string.reader_concurrency,
+                        state.imageConcurrency,
+                    ),
+                    color = MangaTheme.colors.onReaderControls.copy(alpha = 0.72f),
+                    style = MangaTheme.typography.caption,
+                )
+            }
             TextButton(
                 onClick = {
                     onAction(
@@ -401,9 +444,9 @@ private fun ReaderStatusContent(
 }
 
 private enum class ReaderTapZone {
-    Previous,
+    Left,
     Center,
-    Next,
+    Right,
 }
 
 @Composable
@@ -434,8 +477,8 @@ private fun ReaderPageView(
                             val fraction = tapOffset.x / size.width.coerceAtLeast(1)
                             onSingleTap(
                                 when {
-                                    fraction < 0.33f -> ReaderTapZone.Previous
-                                    fraction > 0.67f -> ReaderTapZone.Next
+                                    fraction < 0.33f -> ReaderTapZone.Left
+                                    fraction > 0.67f -> ReaderTapZone.Right
                                     else -> ReaderTapZone.Center
                                 },
                             )

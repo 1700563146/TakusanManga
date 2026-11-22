@@ -35,7 +35,7 @@ class AppNavigationTest {
         composeRule.onNodeWithText("输入关键词开始搜索").assertIsDisplayed()
 
         composeRule.onNodeWithContentDescription("设置").performClick()
-        composeRule.onNodeWithText("主题、阅读模式和动效设置将在后续阶段接入。").assertIsDisplayed()
+        composeRule.onNodeWithText("调整主题、阅读和动效偏好，修改会立即影响当前原型。").assertIsDisplayed()
     }
 
     @Test

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.manganew.reader.feature.settings.ReadingDirection
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,6 +19,8 @@ internal sealed interface ReaderUiState {
         val chapter: PrototypeReaderChapter,
         val pageIndex: Int = 0,
         val mode: ReaderMode = ReaderMode.Paged,
+        val readingDirection: ReadingDirection = ReadingDirection.LeftToRight,
+        val imageConcurrency: Int = 3,
         val toolbarVisible: Boolean = true,
     ) : ReaderUiState
 
@@ -39,6 +42,9 @@ internal sealed interface ReaderAction {
 
 internal class ReaderViewModel(
     private val chapterId: String,
+    private val initialMode: ReaderMode,
+    private val readingDirection: ReadingDirection,
+    private val imageConcurrency: Int,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<ReaderUiState>(ReaderUiState.Loading)
     val uiState: StateFlow<ReaderUiState> = _uiState.asStateFlow()
@@ -69,7 +75,12 @@ internal class ReaderViewModel(
                 _uiState.value = if (chapter == null) {
                     ReaderUiState.Error(ReaderError.ChapterNotFound)
                 } else {
-                    ReaderUiState.Content(chapter)
+                    ReaderUiState.Content(
+                        chapter = chapter,
+                        mode = initialMode,
+                        readingDirection = readingDirection,
+                        imageConcurrency = imageConcurrency,
+                    )
                 }
             } catch (cancellation: CancellationException) {
                 throw cancellation
@@ -107,9 +118,19 @@ internal class ReaderViewModel(
     }
 
     companion object {
-        fun factory(chapterId: String): ViewModelProvider.Factory = viewModelFactory {
+        fun factory(
+            chapterId: String,
+            initialMode: ReaderMode,
+            readingDirection: ReadingDirection,
+            imageConcurrency: Int,
+        ): ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                ReaderViewModel(chapterId)
+                ReaderViewModel(
+                    chapterId = chapterId,
+                    initialMode = initialMode,
+                    readingDirection = readingDirection,
+                    imageConcurrency = imageConcurrency,
+                )
             }
         }
     }
