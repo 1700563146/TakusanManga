@@ -24,6 +24,13 @@ internal object ReaderDestination {
     fun createRoute(chapterId: String): String = "reader/${Uri.encode(chapterId)}"
 }
 
+internal object SourceDetailDestination {
+    const val SourceIdArgument = "sourceId"
+    const val Route = "source/{$SourceIdArgument}"
+
+    fun createRoute(sourceId: String): String = "source/${Uri.encode(sourceId)}"
+}
+
 internal enum class TopLevelDestination(
     val route: String,
     @param:StringRes val labelRes: Int,

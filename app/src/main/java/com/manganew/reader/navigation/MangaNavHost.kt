@@ -16,11 +16,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.manganew.reader.designsystem.theme.MangaMotion
 import com.manganew.reader.designsystem.theme.MangaTheme
-import com.manganew.reader.feature.home.HomeScreen
+import com.manganew.reader.feature.home.HomeRoute
 import com.manganew.reader.feature.reader.ReaderScreen
 import com.manganew.reader.feature.search.SearchScreen
 import com.manganew.reader.feature.settings.SettingsScreen
-import com.manganew.reader.feature.source.SourceListScreen
+import com.manganew.reader.feature.source.SourceDetailRoute
+import com.manganew.reader.feature.source.SourceListRoute
 
 @Composable
 internal fun MangaNavHost(
@@ -43,20 +44,43 @@ internal fun MangaNavHost(
         popExitTransition = { popExitTransition },
     ) {
         composable(AppRoute.Home) {
-            HomeScreen(
+            HomeRoute(
                 onOpenReader = {
                     navController.navigate(ReaderDestination.createRoute("demo-chapter"))
+                },
+                onOpenSource = { sourceId ->
+                    navController.navigate(SourceDetailDestination.createRoute(sourceId))
                 },
             )
         }
         composable(AppRoute.Sources) {
-            SourceListScreen()
+            SourceListRoute(
+                onOpenSource = { sourceId ->
+                    navController.navigate(SourceDetailDestination.createRoute(sourceId))
+                },
+            )
         }
         composable(AppRoute.Search) {
             SearchScreen()
         }
         composable(AppRoute.Settings) {
             SettingsScreen()
+        }
+        composable(
+            route = SourceDetailDestination.Route,
+            arguments = listOf(
+                navArgument(SourceDetailDestination.SourceIdArgument) {
+                    type = NavType.StringType
+                },
+            ),
+        ) { backStackEntry ->
+            val sourceId = backStackEntry.arguments
+                ?.getString(SourceDetailDestination.SourceIdArgument)
+                .orEmpty()
+            SourceDetailRoute(
+                sourceId = sourceId,
+                onBack = navController::navigateUp,
+            )
         }
         composable(
             route = ReaderDestination.Route,

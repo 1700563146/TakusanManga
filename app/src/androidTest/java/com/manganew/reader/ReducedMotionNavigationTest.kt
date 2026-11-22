@@ -7,12 +7,19 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.rememberNavController
 import com.manganew.reader.designsystem.theme.MangaNewTheme
+import com.manganew.reader.feature.source.FakeSourceStore
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
 class ReducedMotionNavigationTest {
     @get:Rule
     val composeRule = createComposeRule()
+
+    @Before
+    fun resetFakeSources() {
+        FakeSourceStore.resetForTests()
+    }
 
     @Test
     fun navigationRemainsUsableWithReduceMotionEnabled() {

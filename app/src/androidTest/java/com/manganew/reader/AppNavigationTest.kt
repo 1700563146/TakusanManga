@@ -6,6 +6,8 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.manganew.reader.feature.source.FakeSourceStore
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -15,9 +17,15 @@ class AppNavigationTest {
     @get:Rule
     val composeRule = createAndroidComposeRule<MainActivity>()
 
+    @Before
+    fun resetFakeSources() {
+        FakeSourceStore.resetForTests()
+        composeRule.waitForIdle()
+    }
+
     @Test
     fun bottomNavigationMovesBetweenTopLevelScreens() {
-        composeRule.onNodeWithText("来源与最近阅读将在下一阶段接入。").assertIsDisplayed()
+        composeRule.onNodeWithText("还没有可用来源").assertIsDisplayed()
 
         composeRule.onNodeWithContentDescription("来源").performClick()
         composeRule.onNodeWithText("来源管理").assertIsDisplayed()
